@@ -3,15 +3,19 @@
 ###########################
 
 cmake_minimum_required(VERSION 3.3)
-project(MiModule)
+project(MiModule VERSION "0.0")
 
 #Finds ROOT and Falaise packages and defines cmake variables
 find_package(Falaise REQUIRED)
 find_package(ROOT    REQUIRED)
 
-include_directories(. include /opt/supernemo/include/)
+if(${Falaise_VERSION} VERSION_GREATER 4.0.1)
+message(FATAL_ERROR "ERROR (MiModule): This version of MiModule is compatible only with Falaise version 4.0.1 or lower! Please use a version of MiModule compatible with your Falaise version!")
+endif()
+	
+include_directories(include ${Bayeux_INCLUDE_DIRS})
 
-file(GLOB SOURCES "src/*.cpp" "src/dicts/*.cpp" "include/*.h")
+file(GLOB SOURCES "src/*.cpp" "src/dicts/*.cpp")
 add_library(MiModule SHARED ${SOURCES})
 
 target_link_libraries(MiModule PUBLIC Falaise::Falaise ${ROOT_LIBRARIES})
