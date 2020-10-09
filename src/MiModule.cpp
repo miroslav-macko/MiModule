@@ -98,14 +98,15 @@ void MiModule::fillSD(datatools::things& workI)
 
 			MiSDParticle* p = new MiSDParticle();
 
-			p->setE(the_particle.get_kinetic_energy() / CLHEP::keV);
-			p->sett(the_particle.get_time()           / CLHEP::ns);	
-			p->setp(the_particle.get_momentum().x(), 
-				the_particle.get_momentum().y(), 
-				the_particle.get_momentum().z());		
-			p->setr(SD.get_vertex().x(), 
-				SD.get_vertex().y(), 
-				SD.get_vertex().z());
+			p->setname(the_particle.get_particle_label());
+			p->setE   (the_particle.get_kinetic_energy() / CLHEP::keV);
+			p->sett   (the_particle.get_time()           / CLHEP::ns);	
+			p->setp   (the_particle.get_momentum().x(), 
+				   the_particle.get_momentum().y(), 
+				   the_particle.get_momentum().z());		
+			p->setr   (SD.get_vertex().x(), 
+				   SD.get_vertex().y(), 
+				   SD.get_vertex().z());
 
 			SDb->addpart(*p);
 
@@ -287,10 +288,27 @@ void MiModule::fillPTD(datatools::things& workI)
 		{	
 			MiCDParticle* p = new MiCDParticle();
 
-			if (particle_has_negative_charge(iparticle->get()))  p->setcharge(-1);
-   			if (particle_has_positive_charge(iparticle->get()))  p->setcharge(1);
-  			if (particle_has_undefined_charge(iparticle->get())) p->setcharge(0);
-
+			if      (particle_has_negative_charge (iparticle->get())) 
+			{				
+				p->setcharge(-1);
+			}  			
+			else if (particle_has_neutral_charge  (iparticle->get())) 
+			{			
+				p->setcharge(0);     // Added 9.10.2020
+			}   				
+			else if (particle_has_positive_charge (iparticle->get())) 
+			{		
+				p->setcharge(1);
+			}  				
+			else if (particle_has_undefined_charge(iparticle->get())) 
+			{		
+				p->setcharge(1000); // Changed 9.10.2020	
+			}  			
+			else 
+			{
+				p->setcharge(1001); // Added 9.10.2020
+			}
+			
 			if (iparticle->get().has_associated_calorimeter_hits())
 			{
 				double time, stime, ene, sene;

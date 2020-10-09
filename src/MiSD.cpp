@@ -69,7 +69,7 @@ void MiSD::print()
 
 	for (UInt_t i=0; i < part.size(); i++)
 	{
-		cout << "|   |--> No " << i << ": " << endl;
+		cout << "|   |--> No " << i << " (" << part.at(i).getname() << "):" << endl;
 
 		if (i == part.size() - 1)
 		{

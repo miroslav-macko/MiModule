@@ -88,3 +88,4 @@ CHANGES IN COMPARISON TO VERSION 0.0.0:
 30. Added variable "int step_no" to MiSDVisuHit class (28.3.2018)
 31. Extended function "void MiSDVisuHit::print()" in MiSDVisuHit class (28.3.2018)
 32. Renamed variable types such as "snemo::datamodel::particle_track_data::particle_collection_type    particles_collection;" (in MiModule.h) to snemo::datamodel::ParticleHdlCollection particles_collection; to ensure compatibility with name of types from Falaise version 4.0.2 and higher (1.10.2020)
+33. Added variable "string name" and respective "setname" and "getname" methods to MiSDParticle class (9.10.2020) 

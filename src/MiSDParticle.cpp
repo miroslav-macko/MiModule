@@ -11,6 +11,11 @@ MiSDParticle::~MiSDParticle()
 {
 }
 
+double MiSDParticle::getname()
+{
+	return name;
+}
+
 double MiSDParticle::getE()
 {
 	return E;
@@ -29,6 +34,12 @@ double MiSDParticle::gett()
 MiVector3D* MiSDParticle::getr()
 {
 	return &r;
+}
+
+int MiSDParticle::setname(string in_nm)
+{
+	name=in_nm;
+	return 0;
 }
 
 int MiSDParticle::setE(double in_e)

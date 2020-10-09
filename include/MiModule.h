@@ -4,6 +4,7 @@
 // Bayeux hlavicky
 #include "bayeux/dpp/base_module.h"
 #include "bayeux/mctools/simulated_data.h"
+#include "falaise/snemo/processing/module.h"
 #include "falaise/snemo/datamodels/calibrated_data.h"
 #include "falaise/snemo/datamodels/particle_track_data.h"
 
