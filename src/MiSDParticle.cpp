@@ -11,7 +11,7 @@ MiSDParticle::~MiSDParticle()
 {
 }
 
-double MiSDParticle::getname()
+string MiSDParticle::getname()
 {
 	return name;
 }
