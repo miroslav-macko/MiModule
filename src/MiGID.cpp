@@ -17,34 +17,34 @@ MiGID::~MiGID()
 {
 }
 
-string* MiGID::gettype()
+string MiGID::gettype()
 {
-	return &type;
+	return type;
 }
 
-string* MiGID::getmodule()
+string MiGID::getmodule()
 {
-	return &module;
+	return module;
 }
 
-string* MiGID::getside()
+string MiGID::getside()
 {
-	return &side;
+	return side;
 }
 
-string* MiGID::getwall()
+string MiGID::getwall()
 {
-	return &wall;
+	return wall;
 }
 
-string* MiGID::getcolumn()
+string MiGID::getcolumn()
 {
-	return &column;
+	return column;
 }
 
-string* MiGID::getrow()
+string MiGID::getrow()
 {
-	return &row;
+	return row;
 }
 
 void MiGID::print()

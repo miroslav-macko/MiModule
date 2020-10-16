@@ -19,23 +19,23 @@ class MiGID: public TObject
 		//! Destructor
 		~MiGID();
 
-		string* gettype();
-		string* getmodule();
-		string* getside();
-		string* getwall();
-		string* getcolumn();
-		string* getrow();
+		string gettype();
+		string getmodule();
+		string getside();
+		string getwall();
+		string getcolumn();
+		string getrow();
 
 		void print();
 
 		int setGID(string in_t, string in_m, string in_s, string in_w, string in_c, string in_r);
 
-		int settype(string in_t);
+		int settype  (string in_t);
 		int setmodule(string in_m);
-		int setside(string in_s);
-		int setwall(string in_w);
+		int setside  (string in_s);
+		int setwall  (string in_w);
 		int setcolumn(string in_c);
-		int setrow(string in_r);
+		int setrow   (string in_r);
 
 	private:
 

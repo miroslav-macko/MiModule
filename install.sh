@@ -77,7 +77,7 @@ echo "#         MODULE COMPILATION (MAKE)         #"
 echo "#############################################"
 echo " "
 
-	make
+	make    || { echo $'\n****Make failed, installation of MiModule aborted!****' ; exit 1; }
 
 	mkdir  ../testing_products
 	cp p_MiModule_v00.conf ../testing_products/p_MiModule_v00.conf

@@ -167,10 +167,10 @@ void MiModule::fillSD(datatools::things& workI)
 					else
 					{
 						// Get only visualization steps belonging to neutrons or particles created by neutron capture
-						if ( (	SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.creator_process") && 
+						/*if ( (	SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.creator_process") && 
 							SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_string_scalar("track.creator_process") == "nCapture" ) || 	// If particle comes from neutron capture
-							SD.get_step_hit("__visu.tracks", ihit).get_particle_name() == "neutron" )							// Or if particle is neutron
-						{
+							SD.get_step_hit("__visu.tracks", ihit).get_particle_name() == "neutron" )*/							// Or if particle is neutron
+						//{
 
 							visu_h = new MiSDVisuHit();
 
@@ -188,27 +188,38 @@ void MiModule::fillSD(datatools::things& workI)
 			                 	 	 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .z());
 
 							// Get visualisation step auxiliaries
-
-							if ( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("material.ref"))
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_time_start() )
 							{
-								visu_h->setMaterial( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_string_scalar("material.ref") ); 
+								visu_h->setTStart(   SD.get_step_hit("__visu.tracks", ihit).get_time_start() ); 
+							}	
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_time_stop() )
+							{
+								visu_h->setTStop(    SD.get_step_hit("__visu.tracks", ihit).get_time_stop() ); 
+							}	
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_material_name() )
+							{
+								visu_h->setMaterial( SD.get_step_hit("__visu.tracks", ihit).get_material_name() ); 
 							}							
-							if ( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.creator_process"))
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_creator_process_name())
 							{
-								visu_h->setProcess( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_string_scalar("track.creator_process") );
+								visu_h->setProcess(  SD.get_step_hit("__visu.tracks", ihit).get_creator_process_name() );
 							}
-							if ( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.id"))
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_track_id())
 							{
-								visu_h->setTrackID( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_integer_scalar("track.id") );
+								visu_h->setTrackID(  SD.get_step_hit("__visu.tracks", ihit).get_track_id() );
 							}
-							if ( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.parent_id"))
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_parent_track_id())
 							{
-								visu_h->setParentID( SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_integer_scalar("track.parent_id") );
+								visu_h->setParentID( SD.get_step_hit("__visu.tracks", ihit).get_parent_track_id() );
+							}
+							if ( SD.get_step_hit("__visu.tracks", ihit).has_energy_deposit())
+							{
+								visu_h->setEdep(     SD.get_step_hit("__visu.tracks", ihit).get_energy_deposit() );
 							}
 			
 							SDb->addvisuhit(*visu_h);
 							delete visu_h;
-						}
+						//}
 					}
     				}
 			}

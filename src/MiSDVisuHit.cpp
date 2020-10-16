@@ -1,3 +1,6 @@
+// Standard Headers
+#include <cmath>
+
 // MiHeaders
 #include "MiSDVisuHit.h"
 
@@ -6,11 +9,19 @@ ClassImp(MiSDVisuHit);
 MiSDVisuHit::MiSDVisuHit()
 {
 	is_init_material = false;
-	is_init_process   = false;  
+	is_init_process  = false;  
+	
+	is_init_start	 = false;
+	is_init_stop     = false;
 }
 
 MiSDVisuHit::~MiSDVisuHit()
 {
+}
+
+void MiSDVisuHit::setEdep(double _Ed)
+{
+	Edep = _Ed;			
 }
 
 void MiSDVisuHit::setMaterial(string mat)
@@ -37,16 +48,42 @@ void MiSDVisuHit::setProcess(string proc)
 
 void MiSDVisuHit::setStart(double x, double y, double z)
 {
+	is_init_start = true;
+
 	start.setX(x);
 	start.setY(y);
 	start.setZ(z);
+
+	if (is_init_start && is_init_stop)
+	{
+		length = sqrt( pow(stop.getX() - start.getX(), 2.0) +
+			       pow(stop.getY() - start.getY(), 2.0) +
+			       pow(stop.getZ() - start.getZ(), 2.0));
+	}
+	else
+	{
+		length = -1.0;
+	}
 }
 
 void MiSDVisuHit::setStop(double x, double y, double z)
 {
+	is_init_stop = true;
+
 	stop.setX(x);
 	stop.setY(y);
 	stop.setZ(z);
+
+	if (is_init_start && is_init_stop)
+	{
+		length = sqrt( pow(stop.getX() - start.getX(), 2.0) +
+			       pow(stop.getY() - start.getY(), 2.0) +
+			       pow(stop.getZ() - start.getZ(), 2.0));
+	}
+	else
+	{
+		length = -1.0;
+	}
 }
 
 void MiSDVisuHit::setStepNo(int No)
@@ -59,7 +96,27 @@ void MiSDVisuHit::setTrackID(int ID)
 	track_ID = ID;
 }
 
+void MiSDVisuHit::setTStart(double _ti)
+{
+	t_start = _ti;
+}
+
+void MiSDVisuHit::setTStop(double _tf)
+{
+	t_stop  = _tf;
+}
+
 ////////////////////////////////////////////////////////////////////////////
+
+double MiSDVisuHit::getEdep()
+{
+	return Edep;
+}
+		
+double MiSDVisuHit::getLength()
+{
+	return length;
+}
 
 string MiSDVisuHit::getMaterial()
 {
@@ -100,18 +157,32 @@ int MiSDVisuHit::getTrackID()
 {
 	return track_ID;
 }
-	
+
+double MiSDVisuHit::getTStart()
+{
+	return t_start;
+}
+
+double MiSDVisuHit::getTStop()
+{
+	return t_stop;
+}
+
 void MiSDVisuHit::print()
 {
 	cout << "**** STEP NO: " << step_no << endl; 		// Added 28.3.2018 15:25
 	cout << "Particle name: " << particle_name << endl;	// Added 27.3.2018 19:14
-	cout << "[start]: (" << start.getX() << ", "
-			     << start.getY() << ", "
-			     << start.getZ() << ")" << endl;
-	cout << "[stop] : (" << stop .getX() << ", "
-			     << stop .getY() << ", "
-			     << stop .getZ() << ")" << endl;
-	cout << "Auxiliaries: " << endl;			// Start: Added 28.3.2018 15:25
+	cout << "[start]:         (" << start.getX() << ", "
+			             << start.getY() << ", "
+			             << start.getZ() << "); "
+	     << "[t_start] : "       << t_start      << endl;
+	cout << "[stop] :         (" << stop .getX() << ", "
+			             << stop .getY() << ", "
+			             << stop .getZ() << "); "
+	     << "[t_stop]  : "       << t_stop       << endl;
+	cout << "length:          " << length << endl;		// Added 13.10.2020
+	cout << "Edep:            " << Edep << endl;		// Added 16.10.2020
+	cout << "### Auxiliaries: ###" << endl;			// Start: Added 28.3.2018 15:25
 	cout << "Track ID:        " << track_ID  << endl;
 	cout << "Parent track ID: " << parent_ID << endl;
 	if (is_init_material)
@@ -120,7 +191,7 @@ void MiSDVisuHit::print()
 	}
 	else
 	{
-		cout << "Material: NO DATA" << endl;
+		cout << "Material:       NO DATA" << endl;
 	}
 	if (is_init_process)	
 	{
@@ -128,7 +199,7 @@ void MiSDVisuHit::print()
 	}
 	else
 	{
-		cout << "Mother process: NO DATA" << endl;	
+		cout << "Mother process:  NO DATA" << endl;	
 	}
 	cout << endl;						// End: Added 28.3.2018 15:25
 }
