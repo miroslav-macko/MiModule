@@ -20,11 +20,13 @@ class MiCDCaloHit: public TObject
 
 		double getE();
 		double getEs();
+		MiGID* getGID();
 		double gett();
 		double getts();
 
 		int setE(double in_E);
 		int setEs(double in_Es);
+		int setGID(MiGID& in_GID);
 		int sett(double in_t);
 		int setts(double in_ts);
 		
@@ -32,6 +34,7 @@ class MiCDCaloHit: public TObject
 
 		double E;	// Particle energy
 		double Es;	// Particle energy sigma
+		MiGID GID;	// Hit GID
 		double t;	// Particle arrival time
 		double ts;	// Particle arrival time sigma
 

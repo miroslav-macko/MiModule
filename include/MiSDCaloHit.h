@@ -18,16 +18,19 @@ class MiSDCaloHit: public TObject
 		//! Destructor
 		~MiSDCaloHit();
 
-		double getE();
-		MiGID* getGID();
+		double  getE();
+		MiGID*  getGID();
+		string  getname();				// Added 13.11.2020
 
-		int setE(double in_e);
-		int setGID(MiGID& in_GID);
+		int  setE(double in_e);
+		int  setGID(MiGID& in_GID);
+		int  setname(string in_name);			// Added 13.11.2020
 		
 	private:
 
-		double E;	// Particle energy
-		MiGID GID;	// Hit GID
+		double 		E;			// Particle energy
+		MiGID 		GID;			// Hit GID
+		string     	name;		// Added 13.11.2020		
 
 	ClassDef(MiSDCaloHit,1);		
 };

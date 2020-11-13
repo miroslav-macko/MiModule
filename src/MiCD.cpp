@@ -46,8 +46,10 @@ void MiCD::print()
 			     << endl;
 			cout << "        |--> t = "
 		             << calohit.at(i).gett() << " ± " 
-			     << calohit.at(i).getts()
-			     << endl;
+			     << calohit.at(i).getts() << endl;
+			cout << "        |--> GID = "; 
+			 	calohit.at(i).getGID()->print();
+			cout << endl;
 		}
 		else
 		{
@@ -57,8 +59,10 @@ void MiCD::print()
 			     << endl;
 			cout << "    |   |--> t = "
 		             << calohit.at(i).gett() << " ± " 
-			     << calohit.at(i).getts()
-			     << endl;
+			     << calohit.at(i).getts() << endl;
+			cout << "    |   |--> GID = "; 
+			 	calohit.at(i).getGID()->print();
+			cout << endl;
 		}
 	}
 }

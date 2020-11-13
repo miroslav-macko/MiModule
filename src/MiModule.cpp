@@ -158,7 +158,8 @@ void MiModule::fillSD(datatools::things& workI)
 
      						cal->setE(the_scin_hit.get_energy_deposit()/ CLHEP::keV);
      						cal->setGID(*gid);
-					
+     						cal->setname(the_scin_hit.get_particle_name());
+						
 						SDb->addcalohit(*cal);
  
 						delete cal;
@@ -166,60 +167,53 @@ void MiModule::fillSD(datatools::things& workI)
 					}
 					else
 					{
-						// Get only visualization steps belonging to neutrons or particles created by neutron capture
-						/*if ( (	SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().has_key("track.creator_process") && 
-							SD.get_step_hit("__visu.tracks", ihit).get_auxiliaries().fetch_string_scalar("track.creator_process") == "nCapture" ) || 	// If particle comes from neutron capture
-							SD.get_step_hit("__visu.tracks", ihit).get_particle_name() == "neutron" )*/							// Or if particle is neutron
-						//{
+						visu_h = new MiSDVisuHit();
 
-							visu_h = new MiSDVisuHit();
+						visu_h->setStepNo(ihit);
 
-							visu_h->setStepNo(ihit);
+						// Get visualisation step particle name
+						visu_h->setParticleName( SD.get_step_hit("__visu.tracks", ihit).get_particle_name() );	// Added 27.3.2018 19:33
 
-							// Get visualisation step particle name
-							visu_h->setParticleName( SD.get_step_hit("__visu.tracks", ihit).get_particle_name() );	// Added 27.3.2018 19:33
+						// Get visualisation step positions
+						visu_h->setStart(	SD.get_step_hit("__visu.tracks", ihit).get_position_start().x(),
+		                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_start().y(),
+		                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_start().z());
+						visu_h->setStop (	SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .x(),
+		                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .y(),
+		                 	 	 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .z());
 
-							// Get visualisation step positions
-							visu_h->setStart(	SD.get_step_hit("__visu.tracks", ihit).get_position_start().x(),
-			                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_start().y(),
-			                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_start().z());
-							visu_h->setStop (	SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .x(),
-			                 		 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .y(),
-			                 	 	 	 		SD.get_step_hit("__visu.tracks", ihit).get_position_stop() .z());
-
-							// Get visualisation step auxiliaries
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_time_start() )
-							{
-								visu_h->setTStart(   SD.get_step_hit("__visu.tracks", ihit).get_time_start() ); 
-							}	
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_time_stop() )
-							{
-								visu_h->setTStop(    SD.get_step_hit("__visu.tracks", ihit).get_time_stop() ); 
-							}	
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_material_name() )
-							{
-								visu_h->setMaterial( SD.get_step_hit("__visu.tracks", ihit).get_material_name() ); 
-							}							
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_creator_process_name())
-							{
-								visu_h->setProcess(  SD.get_step_hit("__visu.tracks", ihit).get_creator_process_name() );
-							}
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_track_id())
-							{
-								visu_h->setTrackID(  SD.get_step_hit("__visu.tracks", ihit).get_track_id() );
-							}
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_parent_track_id())
-							{
-								visu_h->setParentID( SD.get_step_hit("__visu.tracks", ihit).get_parent_track_id() );
-							}
-							if ( SD.get_step_hit("__visu.tracks", ihit).has_energy_deposit())
-							{
-								visu_h->setEdep(     SD.get_step_hit("__visu.tracks", ihit).get_energy_deposit() );
-							}
-			
-							SDb->addvisuhit(*visu_h);
-							delete visu_h;
-						//}
+						// Get visualisation step auxiliaries
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_time_start() )
+						{
+							visu_h->setTStart(   SD.get_step_hit("__visu.tracks", ihit).get_time_start() ); 
+						}	
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_time_stop() )
+						{
+							visu_h->setTStop(    SD.get_step_hit("__visu.tracks", ihit).get_time_stop() ); 
+						}	
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_material_name() )
+						{
+							visu_h->setMaterial( SD.get_step_hit("__visu.tracks", ihit).get_material_name() ); 
+						}							
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_creator_process_name())
+						{
+							visu_h->setProcess(  SD.get_step_hit("__visu.tracks", ihit).get_creator_process_name() );
+						}
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_track_id())
+						{
+							visu_h->setTrackID(  SD.get_step_hit("__visu.tracks", ihit).get_track_id() );
+						}
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_parent_track_id())
+						{
+							visu_h->setParentID( SD.get_step_hit("__visu.tracks", ihit).get_parent_track_id() );
+						}
+						if ( SD.get_step_hit("__visu.tracks", ihit).has_energy_deposit())
+						{
+							visu_h->setEdep(     SD.get_step_hit("__visu.tracks", ihit).get_energy_deposit() );
+						}
+		
+						SDb->addvisuhit(*visu_h);
+						delete visu_h;
 					}
     				}
 			}
@@ -250,6 +244,25 @@ void MiModule::fillCD(datatools::things& workI)
 		for (UInt_t ihit = 0; ihit < CD.calorimeter_hits().size(); ihit++)
 		{
 			MiCDCaloHit* cal = new MiCDCaloHit();
+
+			MiGID* gid = new MiGID();
+    			snemo::datamodel::calibrated_calorimeter_hit calib_hit = CD.calorimeter_hits().at(ihit).get();
+
+			switch (calib_hit.get_geom_id().get_depth()) 
+			{
+				// Get GID only for the proper depth, if depth is other than 1,2,3,4 or 5, write warning
+  				case 5  : gid->setrow    (its(calib_hit.get_geom_id().get(4)));			
+				case 4  : gid->setcolumn (its(calib_hit.get_geom_id().get(3))); 			
+				case 3  : gid->setwall   (its(calib_hit.get_geom_id().get(2))); 			
+				case 2  : gid->setside   (its(calib_hit.get_geom_id().get(1)));
+				case 1  : gid->setmodule (its(calib_hit.get_geom_id().get(0))); 
+				  	  gid->settype   (its(calib_hit.get_geom_id().get_type()));
+				       	  break;
+				default : cout << "WARNING: GID depth in event " << eventNo 
+				       	       << " different from 1,2,3,4 or 5!!!/n";
+			}
+
+     			cal->setGID(*gid);
 
 			ene   = CD.calorimeter_hits().at(ihit).get().get_energy();
 			sene  = CD.calorimeter_hits().at(ihit).get().get_sigma_energy();

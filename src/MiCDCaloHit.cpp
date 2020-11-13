@@ -21,6 +21,11 @@ double MiCDCaloHit::getEs()
 	return Es;
 }
 
+MiGID* MiCDCaloHit::getGID()
+{
+	return &GID;
+}
+
 double MiCDCaloHit::gett()
 {
 	return t;
@@ -40,6 +45,12 @@ int MiCDCaloHit::setE(double in_E)
 int MiCDCaloHit::setEs(double in_Es)
 {
 	Es = in_Es;
+	return 0;
+}
+
+int MiCDCaloHit::setGID(MiGID& in_GID)
+{
+	GID = in_GID;
 	return 0;
 }
 

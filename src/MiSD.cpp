@@ -99,7 +99,7 @@ void MiSD::print()
 
 	for (UInt_t i=0; i < calohit.size(); i++)
 	{
-		cout << "    |--> No " << i << ": " << endl;
+		cout << "    |--> No " << i << " (" << calohit.at(i).getname() << "):" << endl;
 
 		if (i == calohit.size() - 1)
 		{
